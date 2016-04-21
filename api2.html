@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <div class="col-md-4" id="newsLeft">
+    </div>
+    <div class="col-md-4" id="newsCenter">
+    </div>
+    <div class="col-md-4" id="newsRight">
+    </div>
+  </div>
+  <script type="text/javascript">
+    $.ajax({
+        url: 'https://www.googleapis.com/customsearch/v1?q=lebron+james&cx=011101858926978562708%3Abyfxhjvymhs&key=AIzaSyCosQeZ1wcWPFJGUlzPMfsAVGHzttA4YDQ',
+        method: 'GET'
+     }).done(function(response) {
+      for(var i = 1; i < 10; i++)
+      {
+        var currentStory = response.items[i];
+        var currentStoryPagemap = response.items[i].pagemap;
+        var newsDiv = $('<div>');
+        newsDiv.addClass('well');
+        console.log(currentStory);
+        console.log(currentStoryPagemap.article[0]);
+        newsDiv.html(currentStoryPagemap.article[0].name);
+        newsDiv.append('<br>');
+        newsDiv.append(currentStory.snippet);
+        newsDiv.append('<br>');
+        var newsImg = $('<img>');
+        newsImg.attr('src', currentStoryPagemap.cse_thumbnail[0].src);
+        newsDiv.append(newsImg);
+        newsDiv.append('<br>');
+        var newsLink = $('<a>');
+        newsLink.attr('href', currentStoryPagemap.article[0].url)
+        newsLink.html('read more');
+        newsDiv.append(newsLink);
+        var datePub = $('<p>');
+        datePub.addClass('datePub');
+        newsDiv.append(datePub);
+        if(i == 1 || i == 4 || i == 7)
+        {
+          $('#newsLeft').append(newsDiv);
+        }
+        if(i == 2 || i == 5 || i == 8)
+        {
+          $('#newsCenter').append(newsDiv);
+        }
+        if(i == 3 || i == 6 || i == 9)
+        {
+          $('#newsRight').append(newsDiv);
+        }
+      }
+     });
+  </script>
+</body>
+</html>
